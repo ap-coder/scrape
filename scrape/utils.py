@@ -1,14 +1,5 @@
 """scrape utility functions.
-
-   Functions include:
-   Web requests and requests caching
-   Document caching
-   Text processing
-   HTML parsing
-   URL processing
-   File processing
-   User input and sanitation
-   Miscellaneous
+ 
 """
 
 from __future__ import print_function
@@ -139,7 +130,6 @@ def cache_page(page_cache, page_hash, cache_size):
 # Text processing functions
 #
 
-
 def re_filter(text, regexps):
     """Filter text using regular expressions."""
     if not regexps:
@@ -160,14 +150,7 @@ def re_filter(text, regexps):
 
 
 def remove_whitespace(text):
-    """Remove unnecessary whitespace while keeping logical structure.
-
-    Keyword arguments:
-    text -- text to remove whitespace from (list)
-
-    Retain paragraph structure but remove other whitespace,
-    such as between words on a line and at the start and end of the text.
-    """
+ 
     clean_text = []
     curr_line = ''
     # Remove any newlines that follow two lines of whitespace consecutively
@@ -211,16 +194,7 @@ def remove_whitespace(text):
 
 
 def parse_text(infile, xpath=None, filter_words=None, attributes=None):
-    """Filter text using XPath, regex keywords, and tag attributes.
-
-    Keyword arguments:
-    infile -- HTML or text content to parse (list)
-    xpath -- an XPath expression (str)
-    filter_words -- regex keywords (list)
-    attributes -- HTML tag attributes (list)
-
-    Return a list of strings of text.
-    """
+ 
     infiles = []
     text = []
     if xpath is not None:
@@ -261,14 +235,7 @@ def parse_text(infile, xpath=None, filter_words=None, attributes=None):
 
 
 def get_parsed_text(args, infilename):
-    """Parse and return text content of infiles.
-
-    Keyword arguments:
-    args -- program arguments (dict)
-    infilenames -- name of user-inputted and/or downloaded file (str)
-
-    Return a list of strings of text.
-    """
+ 
     parsed_text = []
     if infilename.endswith('.html'):
         # Convert HTML to lxml object for content parsing
@@ -487,13 +454,7 @@ def overwrite_file_check(args, filename):
 
 
 def print_text(args, infilenames, outfilename=None):
-    """Print text content of infiles to stdout.
-
-    Keyword arguments:
-    args -- program arguments (dict)
-    infilenames -- names of user-inputted and/or downloaded files (list)
-    outfilename -- only used for interface purposes (None)
-    """
+ 
     for infilename in infilenames:
         parsed_text = get_parsed_text(args, infilename)
         if parsed_text:
@@ -503,13 +464,7 @@ def print_text(args, infilenames, outfilename=None):
 
 
 def write_pdf_files(args, infilenames, outfilename):
-    """Write pdf file(s) to disk using pdfkit.
-
-    Keyword arguments:
-    args -- program arguments (dict)
-    infilenames -- names of user-inputted and/or downloaded files (list)
-    outfilename -- name of output pdf file (str)
-    """
+ 
     if not outfilename.endswith('.pdf'):
         outfilename = outfilename + '.pdf'
     outfilename = overwrite_file_check(args, outfilename)
@@ -574,13 +529,7 @@ def write_pdf_files(args, infilenames, outfilename):
 
 
 def write_csv_files(args, infilenames, outfilename):
-    """Write csv file(s) to disk.
-
-    Keyword arguments:
-    args -- program arguments (dict)
-    infilenames -- names of user-inputted and/or downloaded files (list)
-    outfilename -- name of output text file (str)
-    """
+ 
     def csv_convert(line):
         """Strip punctuation and insert commas"""
         clean_line = []
@@ -621,13 +570,7 @@ def write_csv_files(args, infilenames, outfilename):
 
 
 def write_text_files(args, infilenames, outfilename):
-    """Write text file(s) to disk.
-
-    Keyword arguments:
-    args -- program arguments (dict)
-    infilenames -- names of user-inputted and/or downloaded files (list)
-    outfilename -- name of output text file (str)
-    """
+ 
     if not outfilename.endswith('.txt'):
         outfilename = outfilename + '.txt'
     outfilename = overwrite_file_check(args, outfilename)
@@ -680,16 +623,7 @@ def get_num_part_files():
 
 
 def write_part_images(url, raw_html, html, filename):
-    """Write image file(s) associated with HTML to disk, substituting filenames.
-
-    Keywords arguments:
-    url -- the URL from which the HTML has been extracted from (str)
-    raw_html -- unparsed HTML file content (list)
-    html -- parsed HTML file content (lxml.html.HtmlElement) (default: None)
-    filename -- the PART.html filename (str)
-
-    Return raw HTML with image names replaced with local image filenames.
-    """
+ 
     save_dirname = '{00}_files'.format(os.path.splitext(filename)[0])
     if not os.path.exists(save_dirname):
         os.makedirs(save_dirname)
@@ -724,17 +658,10 @@ def write_part_images(url, raw_html, html, filename):
 
 
 def write_part_file(args, url, raw_html, html=None, part_num=None):
-    """Write PART.html file(s) to disk, images in PART_files directory.
-
-    Keyword arguments:
-    args -- program arguments (dict)
-    raw_html -- unparsed HTML file content (list)
-    html -- parsed HTML file content (lxml.html.HtmlElement) (default: None)
-    part_num -- PART(#).html file number (int) (default: None)
-    """
+ 
     if part_num is None:
         part_num = get_num_part_files() + 1
-    filename = 'PppART{0}.html'.format(part_num)
+    filename = url'{0}.html'.format(part_num)
 
     # Decode bytes to string in Python 3 versions
     if not PY2 and isinstance(raw_html, bytes):
@@ -773,7 +700,7 @@ def get_part_filenames(num_parts=None, start_num=0):
     """Get numbered PART.html filenames."""
     if num_parts is None:
         num_parts = get_num_part_files()
-    return ['FFFART{0}.html'.format(i) for i in range(start_num+1, num_parts+1)]
+    return ['PART{0}.html'.format(i) for i in range(start_num+1, num_parts+1)]
 
 
 def read_files(filenames):
